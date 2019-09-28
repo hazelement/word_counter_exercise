@@ -44,6 +44,7 @@ class CharacterToWordParserTestCase(unittest.TestCase):
         w = self.word_parser.flush()
         self.assertEqual(w, 'aa', f"flushed word {w} doesn't match 'aa'")
 
+
 class WordStreamCounterTestCase(unittest.TestCase):
 
     def setUp(self):
@@ -76,6 +77,11 @@ class WordStreamCounterTestCase(unittest.TestCase):
 
 class FileWordCounterTestCase(unittest.TestCase):
 
+    def setUp(self):
+
+        self.dir_path = os.path.dirname(os.path.realpath(__file__))
+        self.data_dir = os.path.join(self.dir_path, 'data')
+
     def _parse_cmp_file(self, filename):
 
         cmp_reference = dict()
@@ -88,24 +94,23 @@ class FileWordCounterTestCase(unittest.TestCase):
                 line = f.readline()
         return cmp_reference
 
+    def _get_all_test_cases(self):
+
+        all_test_files = [f for f in os.listdir(self.data_dir) if os.path.isfile(os.path.join(self.data_dir, f))]
+        test_cases = set([os.path.splitext(f)[0] for f in all_test_files])
+
+        return test_cases
 
     def test_all_cases(self):
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        data_dir = os.path.join(dir_path, 'data')
-        test_cases = ['case1']
 
+        # use test files as input and comparison files
+        test_cases = self._get_all_test_cases()
         for test_case in test_cases:
-            input_file = os.path.join(data_dir, test_case+'.in')
-            output_file = os.path.join(data_dir, test_case+'.cmp')
+            input_file = os.path.join(self.data_dir, test_case + '.in')
+            output_file = os.path.join(self.data_dir, test_case + '.cmp')
 
             file_word_counter = FileWordCounter(input_file)
             truth = self._parse_cmp_file(output_file)
 
             for k, v in truth.items():
                 self.assertEqual(file_word_counter.get_word_count(k), truth[k])
-
-
-
-
-
-
