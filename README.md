@@ -17,6 +17,7 @@ green,green,red,green,red
 ### Expected output
 
 green,3
+
 red,2
 
 ## Input Assumptions
