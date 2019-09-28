@@ -10,15 +10,16 @@ Given a comma seperated list of words in a single file, return the number of tim
 
 The input will be in the form of a text file.
 
-### Exmple input
+### Example input
 
-green,green,red,green,red
+`green,green,red,green,red`
 
 ### Expected output
 
+```
 green,3
-
 red,2
+```
 
 ## Input Assumptions
 
