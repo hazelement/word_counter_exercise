@@ -46,7 +46,7 @@ class CharacterToWordParser(CharacterStreamConsumer):
         Receiver a character to buffer and return buffered characters as a word if this character is ","
         else return None
         :param character: string with length 1
-        :return: None or word
+        :return: None or word as string
         """
         word = None
         if character == self.stop_char:
@@ -54,10 +54,10 @@ class CharacterToWordParser(CharacterStreamConsumer):
             self.buffer = ''
         else:
             self.buffer += character
-        return word
+        return word if word != '' else None
 
     def flush(self):
-        """ flush character in buffer
+        """ flush character in buffer and return all characters as a word
         if buffer is empty, return None
         :return: None or word
         """
@@ -92,10 +92,7 @@ class WordStreamCounter(CharacterStreamConsumer, WordCounter):
         self._add_word_to_library(word)
 
     def get_word_count(self, word):
-        if word in self.library:
-            return self.library[word]
-        else:
-            return 0
+        return self.library[word] if word in self.library else 0
 
 
 class FileWordCounter(WordCounter):
@@ -103,9 +100,10 @@ class FileWordCounter(WordCounter):
     def __init__(self, filename):
         self.filename = filename
         self.word_stream_counter = WordStreamCounter()
+        self._parse_file(filename)
 
-    def _parse_file(self):
-        with open(self.filename, 'r') as f:
+    def _parse_file(self, filename):
+        with open(filename, 'r') as f:
             line = f.read()
             line.strip('\n')  # remove line break
             for c in line:
