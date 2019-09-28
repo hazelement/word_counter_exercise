@@ -1,24 +1,7 @@
 """
-
-Input Assumptions:
-
-
-1. leading and trailing "," is ignored, ",," is ignored
-2. word length is not checked. max word length is python array size limit.
-    536870912 on 32 bit system
-3. all characters are assumed ascii characters
-
-
 Usage:
 
 python count_word.py input_file word1 word2
-
-Example:
-
-$ python count_word.py tests/data/case1.in ab bc
-ab 2
-bc 2
-
 
 """
 
