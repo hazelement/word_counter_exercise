@@ -43,6 +43,8 @@ Python 3.7.1
 
 ## Usage
 
+From project root directory, 
+
 `$ python count_word.py input_file word1 word2 ...`
 
 Example:
